@@ -164,6 +164,7 @@ p {
   max-width: -moz-fit-content;
   max-width: fit-content;
   cursor: pointer;
+  text-transform: capitalize;
 }
 
 :where(.btn):is(:hover, :focus-visible) {
