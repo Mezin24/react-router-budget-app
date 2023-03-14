@@ -22,7 +22,7 @@ const Intro = () => {
             required
             placeholder='What is your name?'
           />
-
+          <input type='hidden' name='_action' value='newUser' />
           <button type='submit' className='btn btn--dark'>
             <span>create account</span>
             <UserPlusIcon width={20} />

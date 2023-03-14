@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 import Error from './error/error.page';
 import Dashboard, {
-  dasboardLoader,
+  dashboardLoader,
   dashboardAction,
 } from './dashboard/dasboard.page';
 import Main, { mainLoader } from '../layout/main.layout';
@@ -17,16 +17,17 @@ export const router = createBrowserRouter(
       path='/'
       element={<Main />}
       loader={mainLoader}
-      errorElement={<Error />}
+      // errorElement={<Error />}
     >
       <Route
         index
         element={<Dashboard />}
-        loader={dasboardLoader}
+        loader={dashboardLoader}
         action={dashboardAction}
         errorElement={<Error />}
       />
       <Route path='logout' action={logoutAction} />
+      <Route path='*' element={<Error />} />
     </Route>
   )
 );

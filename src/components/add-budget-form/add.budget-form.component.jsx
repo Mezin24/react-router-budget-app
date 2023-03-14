@@ -1,14 +1,29 @@
-import { Form } from 'react-router-dom';
+import { Form, useFetcher } from 'react-router-dom';
 import { CurrencyDollarIcon } from '@heroicons/react/24/solid';
+import { useRef, useEffect } from 'react';
 
 const AddBudgetForm = () => {
+  const fetcher = useFetcher();
+  const isSubmitting = fetcher.state === 'submitting';
+
+  const formRef = useRef();
+  const newBudgetRef = useRef();
+
+  useEffect(() => {
+    if (!isSubmitting) {
+      formRef.current.reset();
+      newBudgetRef.current.focus();
+    }
+  }, [isSubmitting]);
+
   return (
     <div className='form-wrapper'>
       <h2 className='h3'>Create budget</h2>
-      <Form method='post' className='grid-sm'>
+      <fetcher.Form method='post' className='grid-sm' ref={formRef}>
         <div className='grid-xs'>
           <label htmlFor='newBudget'>Budget Name</label>
           <input
+            ref={newBudgetRef}
             type='text'
             name='newBudget'
             id='newBudget'
@@ -27,11 +42,18 @@ const AddBudgetForm = () => {
             inputMode='decimal'
           />
         </div>
-        <button className='btn btn--dark'>
-          <span>Create budget</span>
-          <CurrencyDollarIcon width={20} />
+        <input type='hidden' value='newBudget' name='_action' />
+        <button className='btn btn--dark' disabled={isSubmitting}>
+          {isSubmitting ? (
+            <span>Creating Budget...</span>
+          ) : (
+            <>
+              <span>Create budget</span>
+              <CurrencyDollarIcon width={20} />
+            </>
+          )}
         </button>
-      </Form>
+      </fetcher.Form>
     </div>
   );
 };
