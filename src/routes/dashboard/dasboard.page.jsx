@@ -9,6 +9,7 @@ import {
   wait,
   createExpense,
 } from '../../utils/helpers';
+import BudgetItem from '../../components/budget-item/budget-item.component';
 
 export function dashboardLoader() {
   const userName = fetchData('userName');
@@ -31,7 +32,7 @@ export async function dashboardAction({ request }) {
     try {
       createBudget({
         name: values.newBudget,
-        amount: values.newBudgetAmount,
+        amount: +values.newBudgetAmount,
       });
       return toast.success('Budget created!');
     } catch {
@@ -41,7 +42,7 @@ export async function dashboardAction({ request }) {
     try {
       createExpense({
         name: values.newExpenseName,
-        amount: values.newExpenseAmount,
+        amount: +values.newExpenseAmount,
         budgetId: values.newExpenseBudget,
       });
       return toast.success('Expense created!');
@@ -66,6 +67,12 @@ const Dashboard = () => {
                 <div className='flex-lg'>
                   <AddBudgetForm />
                   <AddExpenseForm budgets={budgets} />
+                </div>
+                <h2>Existing Budhets</h2>
+                <div className='budgets'>
+                  {budgets.map((budget) => (
+                    <BudgetItem key={budget._id} budget={budget} />
+                  ))}
                 </div>
               </div>
             ) : (
